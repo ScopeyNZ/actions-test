@@ -25,4 +25,10 @@ jobs:
       - run: 'npm version ${{ github.event.inputs.version }}'
       - run: 'npm publish --dry-run'
       - run: 'git push origin main;git push --tags'
+      - name: Detect major version
+        run: |
+          export COMMERCE_MAJOR=$(echo ${{ github.event.inputs.version }} | sed -r 's/v?([0-9]+)\..*/\1/') >> $GITHUB_ENV
+          echo "Detected major $COMMERCE_MAJOR from tag ${{ github.event.inputs.version }}"
+          echo "::set-env name=COMMERCE_MAJOR::$COMMERCE_MAJOR"
+      - run: 'echo $COMMERCE_MAJOR'
 
