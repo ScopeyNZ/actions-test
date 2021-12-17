@@ -1,0 +1,28 @@
+name: Publish
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Enter a valid semver version'
+        required: true
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14.x'
+          registry-url: 'https://registry.npmjs.org'
+      - name: Setup Git
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+      - run: 'yarn install'
+      - run: 'yarn build'
+      - run: 'npm version ${{ github.event.inputs.version }}'
+      - run: 'npm publish --dry-run'
+      - run: 'git push origin main;git push --tags'
+
