@@ -24,8 +24,9 @@ jobs:
       - run: 'yarn build'
       - name: Create changelog from git log
         run: |
-          git log --oneline --pretty=format:"* %s (%an) - %h" --no-merges $(git describe --abbrev=0 v${{ github.event.inputs.version }}^)..HEAD
-          git log --oneline --pretty=format:"* %s (%an) - %h" --no-merges $(git describe --abbrev=0 v${{ github.event.inputs.version }}^)..HEAD >> .github/workflows/changelog-template.txt
+          git describe --abbrev=0 HEAD^
+          git log --oneline --pretty=format:"* %s (%an) - %h" --no-merges $(git describe --abbrev=0 HEAD^)..HEAD
+          git log --oneline --pretty=format:"* %s (%an) - %h" --no-merges $(git describe --abbrev=0 HEAD^)..HEAD >> .github/workflows/changelog-template.txt
       - run: 'npm version ${{ github.event.inputs.version }}'
       - run: 'npm publish --dry-run'
       - run: 'git push origin main;git push --tags'
