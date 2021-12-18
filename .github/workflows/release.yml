@@ -26,7 +26,9 @@ jobs:
       - run: 'npm publish --dry-run'
       - run: 'git push origin main;git push --tags'
       - name: Create changelog from git log
-        run: git log --oneline --pretty=format:"* %s (%an) - %h" --no-merges $(git describe --abbrev=0 v${{ github.event.inputs.version }}^)..v${{ github.event.inputs.version }} >> .github/workflows/changelog-template.txt
+        run: |
+          git log --oneline --pretty=format:"* %s (%an) - %h" --no-merges $(git describe --abbrev=0 v${{ github.event.inputs.version }}^)..v${{ github.event.inputs.version }}
+          git log --oneline --pretty=format:"* %s (%an) - %h" --no-merges $(git describe --abbrev=0 v${{ github.event.inputs.version }}^)..v${{ github.event.inputs.version }} >> .github/workflows/changelog-template.txt
       - name: Create release
         uses: softprops/action-gh-release@v1
         with:
