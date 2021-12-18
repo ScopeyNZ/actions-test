@@ -1,6 +1,6 @@
 {
   "name": "actions-test",
-  "version": "2.9.3",
+  "version": "2.9.5",
   "description": "n",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
